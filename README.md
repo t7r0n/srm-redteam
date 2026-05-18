@@ -4,14 +4,18 @@ Local SRM architecture red-team harness for graph-backed, memoryful AI agents.
 
 The project models a Sales Reasoning Model-style architecture with a typed ontology, knowledge graph traversal, structured tenant memory, attack families, evidence mapping, and an offline dashboard. It is designed to run entirely on deterministic local fixtures.
 
-## Features
+## Decision surface
+
+Local SRM architecture red-team harness for graph, memory, drift, and ISO 42001 evidence.
+
+## Evaluator shape
 
 - Five architecture-aware attack families: ontology poisoning, memory smuggling, graph-walk injection, drift probes, and avatar transcript jailbreaks.
 - Paired-run graph invariant diffing that catches internal state corruption even when the visible answer looks acceptable.
 - ISO/IEC 42001 Annex A.6 evidence export with deterministic evidence IDs and mitigation mapping.
 - Local DuckDB run store, JSONL evidence artifacts, benchmark output, and static dashboard.
 
-## Quickstart
+## Quick path
 
 ```bash
 uv sync
@@ -22,9 +26,14 @@ uv run srm-redteam verify
 uv run srm-redteam dashboard
 ```
 
-Open `outputs/dashboard.html` after the dashboard command.
+## Materialized results
 
-## Validation
+- `outputs/summary.json` for headline metrics and gate status
+- `outputs/reports.json` for per-case results
+- `outputs/dashboard.html` for visual inspection
+- `outputs/demo-pack.zip` or `outputs/demo_pack/` for portable review
+
+## Acceptance checks
 
 ```bash
 uv run pytest -q
@@ -33,20 +42,6 @@ uv run srm-redteam benchmark
 uv run srm-redteam export-demo-pack
 ```
 
-## Architecture
+## Repo boundary
 
-```mermaid
-graph LR
-  A[Attack suite] --> B[Shadow ontology]
-  A --> C[Tenant memory]
-  B --> D[Reference SRM target]
-  C --> D
-  D --> E[Graph invariant diff]
-  E --> F[DuckDB run store]
-  F --> G[ISO 42001 evidence pack]
-  F --> H[Static dashboard]
-```
-
-## Data Policy
-
-This repository uses synthetic fixtures only. It does not require external APIs, credentials, private customer data, browser cookies, or production systems.
+The `srm-redteam` public surface is source, tests, lockfile, and docs. It does not need credentials, browser state, customer records, or hosted services.
